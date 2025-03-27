@@ -160,7 +160,7 @@ st.plotly_chart(fig4, use_container_width=True)
 st.subheader("5. Интерактивный анализ: Возраст vs Стоимость билета")
 plot_type = st.selectbox(
     "Тип графика",
-    options=["Точечный", "Гексбин", "Скрипичный"],
+    options=["Точечный", "Гексбин", "Box Plot"],
     key="plot_type"
 )
 
@@ -182,20 +182,18 @@ elif plot_type == "Гексбин":
         nbinsx=30,
         nbinsy=30
     )
-elif plot_type == "Скрипичный":
-    # Изменяем скрипичный график, чтобы использовать Age как непрерывную переменную
-    fig = px.violin(
+elif plot_type == "Box Plot":
+    # Используем box plot вместо скрипичного графика
+    fig = px.box(
         filtered_data,
-        y="Fare",
         x="Age",
-        box=True,
-        points="all",
-        title="Скрипичный график: Возраст vs Стоимость билета"
+        y="Fare",
+        title="Box Plot: Возраст vs Стоимость билета",
+        points="all"
     )
-    # Добедляем немного интерактивности
-    fig.update_traces(spanmode="soft")
 
 st.plotly_chart(fig)
+
 
 
 
