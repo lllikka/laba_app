@@ -160,7 +160,7 @@ st.plotly_chart(fig4, use_container_width=True)
 st.subheader("5. Интерактивный анализ: Возраст vs Стоимость билета")
 plot_type = st.selectbox(
     "Тип графика",
-    options=["Точечный", "Гексбин", "Box Plot"],
+    options=["Точечный", "Гексбин"],
     key="plot_type"
 )
 
@@ -182,14 +182,6 @@ elif plot_type == "Гексбин":
         title="Гексбин график: Возраст vs Стоимость билета",
         nbinsx=30,
         nbinsy=30
-    )
-elif plot_type == "Ящик с усами":
-    fig = px.box(
-        filtered_data,
-        x="Age",
-        y="Fare",
-        title="Box Plot: Возраст vs Стоимость билета",
-        points="all"
     )
 
 st.plotly_chart(fig)
