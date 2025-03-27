@@ -167,28 +167,41 @@ plot_type = st.selectbox(
 # Удаляем все строки с отсутствующими значениями
 filtered_data = data[["Age", "Fare"]].dropna()
 
-# Дополнительная проверка на типы данных
-filtered_data = filtered_data.astype({"Age": float, "Fare": float})
+# Преобразование типов данных
+filtered_data['Age'] = pd.to_numeric(filtered_data['Age'], errors='coerce')
+filtered_data['Fare'] = pd.to_numeric(filtered_data['Fare'], errors='coerce')
 
-if plot_type == "Точечный":
-    fig5 = px.scatter(
-        filtered_data,
-        x="Age",
-        y="Fare",
-        title="Точечный график: Возраст vs Стоимость билета"
-    )
-elif plot_type == "Гексбин":
-    fig5 = px.density_heatmap(
-        filtered_data,
-        x="Age",
-        y="Fare",
-        title="Гексбин график: Возраст vs Стоимость билета",
-        nbinsx=30,
-        nbinsy=30
-    )
+# Удаление строк с NaN после преобразования
+filtered_data = filtered_data.dropna()
 
-st.plotly_chart(fig5)
+# Ограничение диапазона значений
+filtered_data = filtered_data[(filtered_data['Age'] >= 0) & (filtered_data['Age'] <= 100)]
+filtered_data = filtered_data[(filtered_data['Fare'] >= 0) & (filtered_data['Fare'] <= 500)]
 
+try:
+    if plot_type == "Точечный":
+        fig5 = px.scatter(
+            filtered_data,
+            x="Age",
+            y="Fare",
+            title="Точечный график: Возраст vs Стоимость билета"
+        )
+    elif plot_type == "Гексбин":
+        fig5 = px.density_heatmap(
+            filtered_data,
+            x="Age",
+            y="Fare",
+            title="Гексбин график: Возраст vs Стоимость билета",
+            nbinsx=30,
+            nbinsy=30
+        )
+
+    st.plotly_chart(fig5)
+except ValueError as e:
+    st.error(f"Ошибка при создании графика: {e}")
+    st.write("Пожалуйста, проверьте данные на наличие отсутствующих значений или несовместимых типов.")
+    st.write("Уникальные значения в 'Age':", filtered_data['Age'].unique())
+    st.write("Уникальные значения в 'Fare':", filtered_data['Fare'].unique())
 
 
 
