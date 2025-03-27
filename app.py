@@ -167,15 +167,18 @@ plot_type = st.selectbox(
 # Удаляем все строки с отсутствующими значениями
 filtered_data = data[["Age", "Fare"]].dropna()
 
+# Дополнительная проверка на типы данных
+filtered_data = filtered_data.astype({"Age": float, "Fare": float})
+
 if plot_type == "Точечный":
-    fig = px.scatter(
+    fig5 = px.scatter(
         filtered_data,
         x="Age",
         y="Fare",
         title="Точечный график: Возраст vs Стоимость билета"
     )
 elif plot_type == "Гексбин":
-    fig = px.density_heatmap(
+    fig5 = px.density_heatmap(
         filtered_data,
         x="Age",
         y="Fare",
@@ -184,7 +187,8 @@ elif plot_type == "Гексбин":
         nbinsy=30
     )
 
-st.plotly_chart(fig)
+st.plotly_chart(fig5)
+
 
 
 
