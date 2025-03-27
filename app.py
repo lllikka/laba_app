@@ -158,53 +158,32 @@ st.plotly_chart(fig4, use_container_width=True)
 
 # График 5: Интерактивный график (реагирует на ввод)
 st.subheader("5. Интерактивный анализ: Возраст vs Стоимость билета")
-plot_type = st.selectbox(
-    "Тип графика",
-    options=["Точечный", "Гексбин"],
-    key="plot_type"
+
+# Получаем диапазон возраста от пользователя
+age_range = st.slider(
+    "Выберите диапазон возраста",
+    min_value=0,
+    max_value=100,
+    value=(0, 100),
+    step=1
 )
 
-# Удаляем все строки с отсутствующими значениями
-filtered_data = data[["Age", "Fare"]].dropna()
+# Фильтруем данные по выбранному диапазону возраста
+filtered_data = data[(data['Age'] >= age_range[0]) & (data['Age'] <= age_range[1])]
 
-# Преобразование типов данных
-filtered_data['Age'] = pd.to_numeric(filtered_data['Age'], errors='coerce')
-filtered_data['Fare'] = pd.to_numeric(filtered_data['Fare'], errors='coerce')
+# Создаем точечный график с использованием Plotly Express
+fig5 = px.scatter(
+    filtered_data,
+    x="Age",
+    y="Fare",
+    title="Точечный график: Возраст vs Стоимость билета",
+    color="Survived",
+    color_discrete_map={0: "red", 1: "green"},
+    hover_data=["Name", "Sex"]
+)
 
-# Удаление строк с NaN после преобразования
-filtered_data = filtered_data.dropna()
-
-# Ограничение диапазона значений
-filtered_data = filtered_data[(filtered_data['Age'] >= 0) & (filtered_data['Age'] <= 100)]
-filtered_data = filtered_data[(filtered_data['Fare'] >= 0) & (filtered_data['Fare'] <= 500)]
-
-try:
-    if plot_type == "Точечный":
-        fig5 = px.scatter(
-            filtered_data,
-            x="Age",
-            y="Fare",
-            title="Точечный график: Возраст vs Стоимость билета"
-        )
-    elif plot_type == "Гексбин":
-        fig5 = px.density_heatmap(
-            filtered_data,
-            x="Age",
-            y="Fare",
-            title="Гексбин график: Возраст vs Стоимость билета",
-            nbinsx=30,
-            nbinsy=30
-        )
-
-    st.plotly_chart(fig5)
-except ValueError as e:
-    st.error(f"Ошибка при создании графика: {e}")
-    st.write("Пожалуйста, проверьте данные на наличие отсутствующих значений или несовместимых типов.")
-    st.write("Уникальные значения в 'Age':", filtered_data['Age'].unique())
-    st.write("Уникальные значения в 'Fare':", filtered_data['Fare'].unique())
-
-
-
+# Отображаем график
+st.plotly_chart(fig5)
 
 
 st.subheader("6. Корреляционная матрица")
