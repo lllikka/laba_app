@@ -43,7 +43,7 @@ with st.expander("Показать метаинформацию о датасе�
     st.dataframe(dtype_info)
     
     st.subheader("Основные статистики")
-    st.dataframe(data.describe(include='all').style.format("{:.2f}"))
+    st.dataframe(data.describe(include='all'))
 
 # Разделитель
 st.divider()
