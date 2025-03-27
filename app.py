@@ -164,6 +164,38 @@ plot_type = st.selectbox(
     key="plot_type"
 )
 
+# Фильтрация данных (предполагаем, что df - это ваш DataFrame)
+filtered_data = df[["Age", "Fare"]].dropna()
+
+if plot_type == "Точечный":
+    fig = px.scatter(
+        filtered_data,
+        x="Age",
+        y="Fare",
+        title="Точечный график: Возраст vs Стоимость билета"
+    )
+elif plot_type == "Гексбин":
+    fig = px.density_heatmap(
+        filtered_data,
+        x="Age",
+        y="Fare",
+        title="Гексбин график: Возраст vs Стоимость билета",
+        nbinsx=30,
+        nbinsy=30
+    )
+elif plot_type == "Скрипичный":
+    fig = px.violin(
+        filtered_data,
+        y="Fare",
+        x="Age",
+        box=True,
+        points="all",
+        title="Скрипичный график: Возраст vs Стоимость билета"
+    )
+
+st.plotly_chart(fig)
+
+
 st.subheader("6. Корреляционная матрица")
 numeric_cols = filtered_data.select_dtypes(include=['float64', 'int64']).columns
 corr_matrix = filtered_data[numeric_cols].corr()
@@ -204,6 +236,7 @@ else:
         labels={'Fare': 'Стоимость билета', 'Survived': 'Выжил'}
     )
 
-st.plotly_chart(fig5, use_container_width=True)
 if st.button("Сбросить фильтры"):
-    st.experimental_rerun()
+    # Сбросьте все фильтры здесь
+    st.rerun()  
+
