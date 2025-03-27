@@ -164,8 +164,8 @@ plot_type = st.selectbox(
     key="plot_type"
 )
 
-# Фильтрация данных (предполагаем, что df - это ваш DataFrame)
-filtered_data = df[["Age", "Fare"]].dropna()
+# Используем уже загруженные и обработанные данные
+filtered_data = data[["Age", "Fare"]].dropna()
 
 if plot_type == "Точечный":
     fig = px.scatter(
