@@ -164,10 +164,10 @@ plot_type = st.selectbox(
 )
 
 st.subheader("6. Корреляционная матрица")
-   numeric_cols = filtered_data.select_dtypes(include=['float64', 'int64']).columns
-   corr_matrix = filtered_data[numeric_cols].corr()
-   fig4 = px.imshow(corr_matrix, text_auto=True, aspect="auto")
-   st.plotly_chart(fig4, use_container_width=True)
+numeric_cols = filtered_data.select_dtypes(include=['float64', 'int64']).columns
+corr_matrix = filtered_data[numeric_cols].corr()
+fig4 = px.imshow(corr_matrix, text_auto=True, aspect="auto")
+st.plotly_chart(fig4, use_container_width=True)
    
 
 
