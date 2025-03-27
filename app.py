@@ -186,6 +186,7 @@ fig5 = px.scatter(
 st.plotly_chart(fig5)
 
 
+
 st.subheader("6. Корреляционная матрица")
 numeric_cols = filtered_data.select_dtypes(include=['float64', 'int64']).columns
 corr_matrix = filtered_data[numeric_cols].corr()
