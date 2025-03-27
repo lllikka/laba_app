@@ -109,10 +109,10 @@ st.divider()
 st.header("📈 Визуализации данных")
 
 # График 1: Распределение возраста (гистограмма)
- st.subheader("1. Распределение возраста пассажиров")
-   fig1 = ff.create_distplot([filtered_data['Age'].dropna()], ['Возраст'], bin_size=2)
-   fig1.update_layout(xaxis_title="Возраст", yaxis_title="Плотность")
-   st.plotly_chart(fig1, use_container_width=True)
+st.subheader("1. Распределение возраста пассажиров")
+fig1 = ff.create_distplot([filtered_data['Age'].dropna()], ['Возраст'], bin_size=2)
+fig1.update_layout(xaxis_title="Возраст", yaxis_title="Плотность")
+st.plotly_chart(fig1, use_container_width=True)
    
 
 # График 2: Соотношение выживших/погибших (круговая диаграмма)
