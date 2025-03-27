@@ -164,7 +164,6 @@ plot_type = st.selectbox(
     key="plot_type"
 )
 
-# Используем уже загруженные и обработанные данные
 filtered_data = data[["Age", "Fare"]].dropna()
 
 if plot_type == "Точечный":
@@ -184,6 +183,7 @@ elif plot_type == "Гексбин":
         nbinsy=30
     )
 elif plot_type == "Скрипичный":
+    # Изменяем скрипичный график, чтобы использовать Age как непрерывную переменную
     fig = px.violin(
         filtered_data,
         y="Fare",
@@ -192,8 +192,11 @@ elif plot_type == "Скрипичный":
         points="all",
         title="Скрипичный график: Возраст vs Стоимость билета"
     )
+    # Добедляем немного интерактивности
+    fig.update_traces(spanmode="soft")
 
 st.plotly_chart(fig)
+
 
 
 st.subheader("6. Корреляционная матрица")
