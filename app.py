@@ -204,5 +204,5 @@ else:
     )
 
 st.plotly_chart(fig5, use_container_width=True)
-   if st.button("Сбросить фильтры"):
-       st.experimental_rerun()
+if st.button("Сбросить фильтры"):
+    st.experimental_rerun()
