@@ -164,6 +164,7 @@ plot_type = st.selectbox(
     key="plot_type"
 )
 
+# Удаляем все строки с отсутствующими значениями
 filtered_data = data[["Age", "Fare"]].dropna()
 
 if plot_type == "Точечный":
@@ -182,8 +183,7 @@ elif plot_type == "Гексбин":
         nbinsx=30,
         nbinsy=30
     )
-elif plot_type == "Box Plot":
-    # Используем box plot вместо скрипичного графика
+elif plot_type == "Ящик с усами":
     fig = px.box(
         filtered_data,
         x="Age",
@@ -193,6 +193,7 @@ elif plot_type == "Box Plot":
     )
 
 st.plotly_chart(fig)
+
 
 
 
