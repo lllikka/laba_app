@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
+import plotly.figure_factory as ff
 
 # Загрузка данных
 @st.cache_data
@@ -108,12 +109,11 @@ st.divider()
 st.header("📈 Визуализации данных")
 
 # График 1: Распределение возраста (гистограмма)
-st.subheader("1. Распределение возраста пассажиров")
-fig1, ax1 = plt.subplots()
-sns.histplot(data=filtered_data, x='Age', bins=20, kde=True, ax=ax1)
-ax1.set_xlabel("Возраст")
-ax1.set_ylabel("Количество")
-st.pyplot(fig1)
+ st.subheader("1. Распределение возраста пассажиров")
+   fig1 = ff.create_distplot([filtered_data['Age'].dropna()], ['Возраст'], bin_size=2)
+   fig1.update_layout(xaxis_title="Возраст", yaxis_title="Плотность")
+   st.plotly_chart(fig1, use_container_width=True)
+   
 
 # График 2: Соотношение выживших/погибших (круговая диаграмма)
 st.subheader("2. Соотношение выживших и погибших")
@@ -163,6 +163,14 @@ plot_type = st.selectbox(
     key="plot_type"
 )
 
+st.subheader("6. Корреляционная матрица")
+   numeric_cols = filtered_data.select_dtypes(include=['float64', 'int64']).columns
+   corr_matrix = filtered_data[numeric_cols].corr()
+   fig4 = px.imshow(corr_matrix, text_auto=True, aspect="auto")
+   st.plotly_chart(fig4, use_container_width=True)
+   
+
+
 if plot_type == "Точечный":
     fig5 = px.scatter(
         filtered_data,
@@ -196,4 +204,5 @@ else:
     )
 
 st.plotly_chart(fig5, use_container_width=True)
-
+   if st.button("Сбросить фильтры"):
+       st.experimental_rerun()
