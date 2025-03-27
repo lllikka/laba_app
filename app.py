@@ -185,48 +185,6 @@ fig5 = px.scatter(
 # Отображаем график
 st.plotly_chart(fig5)
 
-
-
-st.subheader("6. Корреляционная матрица")
-numeric_cols = filtered_data.select_dtypes(include=['float64', 'int64']).columns
-corr_matrix = filtered_data[numeric_cols].corr()
-fig4 = px.imshow(corr_matrix, text_auto=True, aspect="auto")
-st.plotly_chart(fig4, use_container_width=True)
-   
-
-
-if plot_type == "Точечный":
-    fig5 = px.scatter(
-        filtered_data,
-        x='Age',
-        y='Fare',
-        color='Survived',
-        size='Siblings/Spouses Aboard',
-        hover_data=['Name'],
-        title='Зависимость стоимости билета от возраста',
-        labels={'Fare': 'Стоимость билета', 'Age': 'Возраст'}
-    )
-elif plot_type == "Гексбин":
-    fig5 = px.density_heatmap(
-        filtered_data,
-        x='Age',
-        y='Fare',
-        facet_col='Survived',
-        title='Плотность распределения: Возраст vs Стоимость билета',
-        labels={'Fare': 'Стоимость билета', 'Age': 'Возраст'}
-    )
-else:
-    fig5 = px.violin(
-        filtered_data,
-        x='Survived',
-        y='Fare',
-        color='Sex',
-        box=True,
-        points="all",
-        title='Распределение стоимости билета по выживаемости и полу',
-        labels={'Fare': 'Стоимость билета', 'Survived': 'Выжил'}
-    )
-
 if st.button("Сбросить фильтры"):
     # Сбросьте все фильтры здесь
     st.rerun()  
